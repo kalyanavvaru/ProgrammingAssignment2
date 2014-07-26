@@ -62,14 +62,15 @@ makeCacheMatrix <- function(pMatrixObject = matrix()) {
 ## matrix if exists contained in the special matrix. If there is no existing cached instance, this function computes and returns the inverse matrix after storing
 ## the inverse matrix in the special matrix.
 cacheSolve <- function(x, ...) {
-        
+        # check if the type of x is of special matrix type 'makeCacheMatrix'
         if(!is.null(x) && !is.atomic(x) &&x$funcType=="makeCacheMatrix"){
-                ## Return a matrix that is the inverse of 'x'
+                # check if pre-computed inverse already is cached
                 inverseMatrix <- x$getInverseMatrix()
                 if(!is.null(inverseMatrix)) {
                         message("getting cached data")
                         return(inverseMatrix)
                 }
+                #if the cached object is null, compute, set and return inverse matrix
                 matrixObject <- x$get()
                 inverseMatrix <- solve(matrixObject, ...)
                 x$setInverseMatrix(inverseMatrix)
